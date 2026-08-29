@@ -6,10 +6,10 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-COPY requiremets.txt /app/
+COPY requirements.txt /app/
 
 RUN pip3 install --upgrade pip
-RUN pip3 install -r requiremets.txt
+RUN pip3 install -r requirements.txt
 
 
 COPY ./core /app
