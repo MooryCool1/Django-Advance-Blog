@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ post.title }}</title>
+    <style>
+        body {
+            font-family: Tahoma, sans-serif;
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 0 20px;
+            background: #f7f7f9;
+            color: #333;
+        }
+
+        .post-detail {
+            background: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+
+        .post-detail h1 {
+            margin-top: 0;
+            font-size: 26px;
+            color: #222;
+        }
+
+        .post-detail .meta {
+            font-size: 13px;
+            color: #999;
+            margin-bottom: 20px;
+        }
+
+        .post-detail p {
+            line-height: 1.8;
+            color: #444;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #4a6cf7;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="post-detail">
+        <h1>{{ post.title }}</h1>
+        <div class="meta">{{ post.created_date }}</div>
+        <p>{{ post.content }}</p>
+    </div>
+
+    <a class="back-link" href="{% url 'blog:post-list' %}">« بازگشت به لیست پست‌ها</a>
+</body>
+</html>

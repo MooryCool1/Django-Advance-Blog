@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView, FormView
 from .models import Post
+from .forms import PostForm
 # Create your views here.
 
 def indexView(request):
@@ -15,8 +16,25 @@ class IndexView(TemplateView):
         context['posts'] = Post.objects.all()
         return context 
 
-class PostList(ListView):
-    model = Post
+class PostListView(ListView):
+    #model = Post
     template_name = 'post_list.html'
     context_object_name = 'posts'
-    queryset = Post.objects.filter(status='published').order_by('-published_date')
+    paginate_by = 2
+    ordering = ['-created_date']
+    queryset = Post.objects.all()
+    #def get_queryset(self):
+    #    posts = Post.objects.filter(status=True)
+    #    return posts
+
+class PostDetailView(DetailView):
+    model = Post
+
+class PostCreateView(FormView):
+    template_name = 'blog/contact.html'
+    form_class = PostForm   
+    success_url = '/blog/post/'   
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
