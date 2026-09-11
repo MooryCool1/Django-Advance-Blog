@@ -82,7 +82,10 @@
 
     {% for post in posts %}
     <div class="post-card">
-        <h2><a href="{% url 'blog:post-detail' pk=post.pk %}">{{ post.title }}</a></h2>
+        <h2><a href="{% url 'blog:post-detail' pk=post.pk %}">{{ post.title }}</a>
+        <a href="{% url 'blog:post-edit' pk=post.pk %}">
+            <h5>Edit</h5>
+        </a></h2>
         <p>{{ post.content }}</p>
     </div>
     {% endfor %}
