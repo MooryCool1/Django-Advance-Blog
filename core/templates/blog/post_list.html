@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,19 +24,52 @@
             border-radius: 10px;
             padding: 20px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
         }
 
         .post-card h2 {
             margin: 0 0 10px;
             font-size: 20px;
+        }
+
+        .post-card h2 a {
             color: #222;
+            text-decoration: none;
+        }
+
+        .post-card h2 a:hover {
+            text-decoration: underline;
         }
 
         .post-card p {
-            margin: 0;
+            margin: 0 0 10px;
             line-height: 1.7;
             color: #555;
+        }
+
+        .actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .edit-link {
+            color: #4a6cf7;
+            font-size: 13px;
+            text-decoration: none;
+        }
+
+        .edit-link:hover {
+            text-decoration: underline;
+        }
+
+        .delete-link {
+            color: #e74c3c;
+            font-size: 13px;
+            text-decoration: none;
+        }
+
+        .delete-link:hover {
+            text-decoration: underline;
         }
 
         .pagination {
@@ -76,26 +108,26 @@
         }
     </style>
 </head>
-
 <body>
     <h1>لیست پست‌ها</h1>
 
     {% for post in posts %}
     <div class="post-card">
-        <h2><a href="{% url 'blog:post-detail' pk=post.pk %}">{{ post.title }}</a>
-        <a href="{% url 'blog:post-edit' pk=post.pk %}">
-            <h5>Edit</h5>
-        </a></h2>
+        <h2><a href="{% url 'blog:post-detail' pk=post.pk %}">{{ post.title }}</a></h2>
         <p>{{ post.content }}</p>
+        <div class="actions">
+            <a class="edit-link" href="{% url 'blog:post-edit' pk=post.id %}">Edit</a>
+            <a class="delete-link" href="{% url 'blog:post-delete' pk=post.id %}">Delete</a>
+        </div>
     </div>
     {% endfor %}
 
     {% if is_paginated %}
     <div class="pagination">
         {% if page_obj.has_previous %}
-        <a href="?page={{ page_obj.previous_page_number }}">« صفحه قبل</a>
+            <a href="?page={{ page_obj.previous_page_number }}">« صفحه قبل</a>
         {% else %}
-        <span class="disabled">« صفحه قبل</span>
+            <span class="disabled">« صفحه قبل</span>
         {% endif %}
 
         <span class="current">
@@ -103,12 +135,11 @@
         </span>
 
         {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}">صفحه بعد »</a>
+            <a href="?page={{ page_obj.next_page_number }}">صفحه بعد »</a>
         {% else %}
-        <span class="disabled">صفحه بعد »</span>
+            <span class="disabled">صفحه بعد »</span>
         {% endif %}
     </div>
     {% endif %}
 </body>
-
 </html>

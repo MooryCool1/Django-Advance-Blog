@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
-from django.views.generic import ListView, DetailView, FormView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, FormView, CreateView, UpdateView, DeleteView
 from .models import Post
 from .forms import PostForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
 def indexView(request):
@@ -16,7 +17,7 @@ class IndexView(TemplateView):
         context['posts'] = Post.objects.all()
         return context 
 
-class PostListView(ListView):
+class PostListView(LoginRequiredMixin,ListView):
     #model = Post
     template_name = 'post_list.html'
     context_object_name = 'posts'
@@ -27,7 +28,7 @@ class PostListView(ListView):
     #    posts = Post.objects.filter(status=True)
     #    return posts
 
-class PostDetailView(DetailView):
+class PostDetailView(LoginRequiredMixin,DetailView):
     model = Post
 
 #class PostCreateView(FormView):
@@ -40,7 +41,7 @@ class PostDetailView(DetailView):
 #        return super().form_valid(form)
 
 
-class PostCreateView(CreateView):
+class PostCreateView(LoginRequiredMixin,CreateView):
     model = Post
     #fields = ['author','title', 'content', 'status', 'category', 'published_date']
     form_class = PostForm
@@ -50,7 +51,12 @@ class PostCreateView(CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
-class PostEditView(UpdateView):
+class PostEditView(LoginRequiredMixin,UpdateView):
     model = Post
     form_class = PostForm
+    success_url = '/blog/post/'
+
+
+class PostDeleteView(LoginRequiredMixin,DeleteView):
+    model = Post
     success_url = '/blog/post/'
