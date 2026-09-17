@@ -3,7 +3,7 @@ from django.views.generic.base import TemplateView
 from django.views.generic import ListView, DetailView, FormView, CreateView, UpdateView, DeleteView
 from .models import Post
 from .forms import PostForm
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 # Create your views here.
 
 def indexView(request):
@@ -19,6 +19,7 @@ class IndexView(TemplateView):
 
 class PostListView(LoginRequiredMixin,ListView):
     #model = Post
+    permission_required = 'blog.view_post'
     template_name = 'post_list.html'
     context_object_name = 'posts'
     paginate_by = 2
